@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn import model_selection
 
 if __name__ == "__main__":
-    train_path = 'winequality-red.csv'
+    train_path = 'cross-validation/winequality-red.csv'
     df = pd.read_csv(train_path)
 
     # creating a new column 'kfold' and fill it with -1
