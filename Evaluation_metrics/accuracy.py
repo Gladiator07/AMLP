@@ -33,5 +33,5 @@ def accuracy_v2(y_true, y_pred):
     tn = true_negative(y_true, y_pred)
     fn = false_negative(y_true, y_pred)
 
-    accuracy_score = (tp + fp) / (tp + fp + fn + tn)
+    accuracy_score = (tp + tn) / (tp + fp + fn + tn)
     return accuracy_score
