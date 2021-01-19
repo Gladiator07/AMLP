@@ -1,4 +1,4 @@
-from accuracy import accuracy, accuracy_v2
+from custom_metrics import accuracy, accuracy_v2
 from sklearn.metrics import accuracy_score
 
 # checking both the accuracy function created with sci-kit learn implementation
@@ -14,4 +14,4 @@ sk = accuracy_score(l1, l2)
 
 print(f"Accuracy of the first function: {a1}")
 print(f"Accuracy of the second(using tp,fp,fn,tn) function: {a2}")
-print(f"Accuracy of sklearn's implementation: {sk}")
+print(f"Accuracy of sklearn's implementation: {sk}") 
