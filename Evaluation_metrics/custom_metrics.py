@@ -99,3 +99,46 @@ def accuracy_v2(y_true, y_pred):
 
     accuracy_score = (tp + tn) / (tp + fp + fn + tn)
     return accuracy_score
+
+
+# function to calculate precision
+
+def precision(y_true, y_pred):
+    """
+    Function to calculate precision
+    :param y_true: list of true values
+    :param y_pred: list of predicted values
+    :return : precision score
+    """
+    tp = true_positive(y_true, y_pred)
+    fp = false_positive(y_true, y_pred)
+    precision = tp / (tp + fp)
+    return precision
+
+# function to calculate recall
+
+def recall(y_true, y_pred):
+    """
+    Function to calculate recall
+    :param y_true: list of true values
+    :param y_pred: list of predicted values
+    :return : recall score
+    """
+    tp = true_positive(y_true, y_pred)
+    fn = false_negative(y_true, y_pred)
+    recall = tp / (tp + fn)
+    return recall
+
+def f1(y_true, y_pred):
+    """
+    Function to calculate f1 score
+    :param y_true: list of true values
+    :param y_pred: list of predicted values
+    :return : f1 score
+    """
+
+    p = precision(y_true, y_pred)
+    r = recall(y_true, y_pred)
+
+    score = 2 * p * r / (p + r)
+    return score
