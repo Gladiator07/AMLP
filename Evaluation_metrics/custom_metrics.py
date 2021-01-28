@@ -357,26 +357,246 @@ def weighted_f1(y_true, y_pred):
     # loop over all classes
     for class_ in range(num_classes):
         # all classes except current are considered negative
-            temp_true = [1 if p==class_ else 0 for p in y_true]
-            temp_pred = [1 if p==class_ else 0 for p in y_pred]
+        temp_true = [1 if p == class_ else 0 for p in y_true]
+        temp_pred = [1 if p == class_ else 0 for p in y_pred]
 
         # precision and recall for class
-            p = precision(temp_true, temp_pred)
-            r = recall(temp_true, temp_pred)
+        p = precision(temp_true, temp_pred)
+        r = recall(temp_true, temp_pred)
 
         # calculate f1 of class
-            if p + r != 0:
-                temp_f1 = 2 * p * r / (p + r)
-            else:
-                temp_f1 = 0
-            
-            # multiply f1 with count of samples in class
-            weighted_f1 = class_counts[class_] * temp_f1
+        if p + r != 0:
+            temp_f1 = 2 * p * r / (p + r)
+        else:
+            temp_f1 = 0
 
-            # add to f1 precision
-            f1 += weighted_f1
+        # multiply f1 with count of samples in class
+        weighted_f1 = class_counts[class_] * temp_f1
 
-        # calculate overall F1 by dividing by total 
+        # add to f1 precision
+        f1 += weighted_f1
+
+        # calculate overall F1 by dividing by total
         # number of samples
     overall_f1 = f1 / len(y_true)
     return overall_f1
+
+
+# precision at k (P@k)
+
+def pk(y_true, y_pred, k):
+    """
+   Function to calculate precision at k
+   :param y_true: list of values, actual classes
+   :param y_pred: list of values, predicted classes
+   :param k: the value for k
+   :return: precision at given value k
+   """
+
+    # we are only interested in top-k predictions
+    y_pred = y_pred[:k]
+    # convert predictions to set
+    pred_set = set(y_pred)
+    # convert actual values to set
+    true_set = set(y_true)
+    # find common values
+    common_values = pred_set.intersection(true_set)
+    # return length of common values over k
+    return len(common_values) / len(y_pred[:k])
+
+# average precision at k or AP@k
+
+
+def apk(y_true, y_pred, k):
+    """
+    This function calculate average precision at k
+    for a single sample
+    :param y_true: list of values, actual classes
+    :param y_pred: list of values, predicted classes
+    :return: average precision at a given value k
+    """
+
+    # initialize p@k list of values
+    pk_values = []
+    # loop over all k, from 1 to k + 1
+    for i in range(1, k+1):
+        # calculate p@i and append to list
+        pk_values.append(pk(y_true, y_pred, i))
+    # if we have no values in the list, return 0
+    if len(pk_values) == 0:
+        return 0
+    # else, we return the sum of list over length of list
+    return sum(pk_values) / len(pk_values)
+
+# mean average precision at k (MAP@K)
+
+
+def mapk(y_true, y_pred, k):
+    """
+    This function calculates mean avg precision at k
+    for a single sample
+    :param y_true: list of values, actual classes
+    :param y_pred: list of values, predicted classes
+    :return: mean avg precision at a given value k
+    """
+    # initialize empty list for apk values
+    apk_values = []
+    # loop over all samples
+    for i in range(len(y_true)):
+        # store apk values for every sample
+        apk_values.append(
+
+            apk(y_true[i], y_pred[i], k=k)
+        )
+    # return mean of apk values list
+    return sum(apk_values) / len(apk_values)
+
+# ===================================================================================
+
+# METRICS FOR REGRESSION
+
+
+def mean_absolute_error(y_true, y_pred):
+    """
+    This function calculates mae
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: mean absolute error
+    """
+
+    # initialize error to zero
+    error = 0
+    # loop over all samples in the true and predicted list
+    for yt, yp in zip(y_true, y_pred):
+        # calculate absolute error
+        error += np.abs(yt - yp)
+
+    # return mean error
+    return error / len(y_true)
+
+
+def mean_squared_error(y_true, y_pred):
+    """
+    This function calculates mse
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: mean squared error
+    """
+
+    # initialize error to zero
+    error = 0
+    # loop over all samples in the true and predicted list
+    for yt, yp in zip(y_true, y_pred):
+        # calculate squared error
+        error += np.abs(yt - yp) ** 2
+
+    # return mean error
+    return error / len(y_true)
+
+
+# mean squared log error
+
+def mean_squared_log_error(y_true, y_pred):
+    """
+    This function calculates msle
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: mean squared log error
+    """
+
+    # initialize error to zero
+    error = 0
+    # loop over all samples in the true and predicted list
+    for yt, yp in zip(y_true, y_pred):
+        # calculate squared error
+        error += (np.log(1 + yt) - np.log(1 + yp)) ** 2
+
+    # return mean error
+    return error / len(y_true)
+
+
+def mean_percentage_error(y_true, y_pred):
+    """
+    This function calculates mpe
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: mean percentage error
+    """
+    # initialize error at 0
+    error = 0
+    # loop over all samples in true and predicted list
+    for yt, yp in zip(y_true, y_pred):
+        # calculate percentage error
+        # and add to error
+        error += (yt - yp) / yt
+    # return mean percentage error
+    return error / len(y_true)
+
+
+def mean_abs_percentage_error(y_true, y_pred):
+    """
+    This function calculates MAPE
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: mean absolute percentage error
+    """
+    # initialize error at 0
+    error = 0
+    # loop over all samples in true and predicted list
+    for yt, yp in zip(y_true, y_pred):
+        # calculate percentage error
+        # and add to error
+        error += np.abs(yt - yp) / yt
+    # return mean percentage error
+    return error / len(y_true)
+
+
+def r2(y_true, y_pred):
+    """
+    This function calculates r-squared score
+    :param y_true: list of real numbers, true values
+    :param y_pred: list of real numbers, predicted values
+    :return: r2 score
+    """
+
+    # calculate the mean value of true values
+    mean_true_value = np.mean(y_true)
+
+    # initialize numerator with 0
+    numerator = 0
+    # initialize denominator with 0
+    denominator = 0
+
+    # loop over all true and predicted values
+    for yt, yp in zip(y_true, y_pred):
+        # update numerator
+        numerator += (yt - yp) ** 2
+        # update denominator
+        denominator += (yt - mean_true_value) ** 2
+        # calculate the ratio
+    ratio = numerator / denominator
+    # return 1 - ratio
+    return (1 - ratio)
+
+
+def mcc(y_true, y_pred):
+    """
+    This function calculates Matthew's Correlation Coefficient
+    for binary classification.
+    :param y_true: list of true values
+    :param y_pred: list of predicted values
+    :return: mcc score
+    """
+    tp = true_positive(y_true, y_pred)
+    tn = true_negative(y_true, y_pred)
+    fp = false_positive(y_true, y_pred)
+    fn = false_negative(y_true, y_pred)
+    numerator = (tp * tn) - (fp * fn)
+    denominator = (
+    (tp + fp) *
+    (fn + tn) *
+    (fp + tn) *
+    (tp + fn)
+    )
+    denominator = denominator ** 0.5
+    return numerator/denominator
