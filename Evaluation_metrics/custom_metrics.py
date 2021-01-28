@@ -1,4 +1,5 @@
 import numpy as np
+from collections import Counter
 
 
 def accuracy(y_true, y_pred):
@@ -245,9 +246,9 @@ def macro_precision(y_true, y_pred):
 
         # calculate and return average precision over all classes
 
-        precision /= num_classes
+    precision /= num_classes
 
-        return precision
+    return precision
 
 
 # micro-precision
@@ -283,9 +284,99 @@ def micro_precision(y_true, y_pred):
         fp += false_positive(temp_true, temp_pred)
 
         # calculate and return overall precision
-        precision = tp / (tp + fp)
+    precision = tp / (tp + fp)
 
-        return precision
+    return precision
 
 
 # weighted precision
+
+def weighted_precision(y_true, y_pred):
+    """
+   Function to calculate weighted averaged precision
+   :param y_true: list of true values
+   :param y_pred: list of predicted values
+   :return: weighted precision score
+   """
+
+   # find number of classes
+    num_classes = len(np.unique(y_true))
+
+   # create class:sample count dictionary
+   # it looks something like this
+   # {0: 20, 1:15, 2:21}
+    class_counts = Counter(y_true)
+
+   # initialize precision to zero
+    precision = 0
+
+   # loop over all classes
+    for class_ in range(num_classes):
+       # all classes except current are considered negative
+        temp_true = [1 if p == class_ else 0 for p in y_true]
+        temp_pred = [1 if p == class_ else 0 for p in y_pred]
+
+       # calculate tp and fp for class
+        tp = true_positive(temp_true, temp_pred)
+        fp = false_positive(temp_true, temp_pred)
+
+       # calculate precision of class
+        temp_precision = tp / (tp + fp)
+
+       # multiply precision with count of class
+        weighted_precision = class_counts[class_] * temp_precision
+
+       # add to overall precision
+        precision += weighted_precision
+    # calculate overall precision by dividing by
+    # total number of samples
+    overall_precision = precision / len(y_true)
+
+    return overall_precision
+
+
+# weighted f1-score
+
+def weighted_f1(y_true, y_pred):
+    """
+   Function to calculate weighted averaged f1 score
+   :param y_true: list of true values
+   :param y_pred: list of predicted values
+   :return: weighted f1 score
+   """
+
+   # number of classes
+    num_classes = len(np.unique(y_true))
+
+    # create class:sample count dictionary
+    class_counts = Counter(y_true)
+
+    # initialize f1 to 0
+    f1 = 0
+
+    # loop over all classes
+    for class_ in range(num_classes):
+        # all classes except current are considered negative
+            temp_true = [1 if p==class_ else 0 for p in y_true]
+            temp_pred = [1 if p==class_ else 0 for p in y_pred]
+
+        # precision and recall for class
+            p = precision(temp_true, temp_pred)
+            r = recall(temp_true, temp_pred)
+
+        # calculate f1 of class
+            if p + r != 0:
+                temp_f1 = 2 * p * r / (p + r)
+            else:
+                temp_f1 = 0
+            
+            # multiply f1 with count of samples in class
+            weighted_f1 = class_counts[class_] * temp_f1
+
+            # add to f1 precision
+            f1 += weighted_f1
+
+        # calculate overall F1 by dividing by total 
+        # number of samples
+    overall_f1 = f1 / len(y_true)
+    return overall_f1
