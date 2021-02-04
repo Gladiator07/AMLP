@@ -1,3 +1,6 @@
 .ipynb_checkpoints/
 __pycache__
 .vscode/
+mnist_train_folds.csv
+mnist_train.csv
+AAAMLP.pdf
