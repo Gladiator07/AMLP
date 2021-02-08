@@ -5,6 +5,7 @@ from sklearn import linear_model
 from sklearn import metrics
 from sklearn import preprocessing
 import config
+import time
 
 def run(fold):
     # loading the full training data with folds
@@ -66,8 +67,15 @@ if __name__ == "__main__":
     # run(0)
 
     # run for all folds
+    start_time = time.time()
+
     for fold_ in range(5):
         run(fold_)
+
+    end_time = time.time() - start_time
+    print(f"--- {end_time} seconds ---")
+
+
 
 # This script produces following results:
 # 0.7861181966678912
@@ -75,3 +83,4 @@ if __name__ == "__main__":
 # 0.7880526183419283
 # 0.7859593431685528
 # 0.786313353749265
+# --- 60.28842424245 seconds ---
