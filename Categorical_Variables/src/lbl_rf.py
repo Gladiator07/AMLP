@@ -1,5 +1,6 @@
-import config
+import config # type: ignore
 import pandas as pd
+import time
 from sklearn import ensemble
 from sklearn import metrics
 from sklearn import preprocessing
@@ -44,12 +45,21 @@ def run(fold):
 
 
 if __name__ == "__main__":
+    start_time = time.time()
+
     for fold_ in range(5):
         run(fold_)
 
-# With OHE
-# Fold = 0, AUC = 0.7175068247592911
-# Fold = 1, AUC = 0.7153852119482599
-# Fold = 2, AUC = 0.717459784306343
-# Fold = 3, AUC = 0.7154430139392741
-# Fold = 4, AUC = 0.7163421012124247
+    end_time = time.time() - start_time
+    print(f"---{end_time} seconds---")
+
+
+
+# Output:
+
+# Fold = 0, AUC = 0.7160334115968606
+# Fold = 1, AUC = 0.7146399857024811
+# Fold = 2, AUC = 0.716906795007507
+# Fold = 3, AUC = 0.7140732474138755
+# Fold = 4, AUC = 0.7148884683614005
+# ---218.38796615600586 seconds---
