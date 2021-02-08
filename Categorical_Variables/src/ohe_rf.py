@@ -1,4 +1,5 @@
-import config
+
+import config        # type: ignore
 import pandas as pd
 from sklearn import preprocessing
 from sklearn import metrics

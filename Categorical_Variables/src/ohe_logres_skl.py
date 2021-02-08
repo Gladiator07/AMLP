@@ -1,9 +1,8 @@
 # One-Hot Encoded Logistic Regression model cross-validated using sklearn
 
-import config
+import config        # type: ignore
 import pandas as pd
 import time
-from sklearn import metrics
 from sklearn import preprocessing
 from sklearn import linear_model
 from sklearn import model_selection
