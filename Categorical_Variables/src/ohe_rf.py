@@ -32,4 +32,21 @@ def run(fold):
     x_train = ohe.transform(df_train[features])
     x_valid = ohe.transform(df_valid[features])
 
-    model = ensemble.RandomForestClassifier()
+    model = ensemble.RandomForestClassifier(n_jobs=-1)
+    model.fit(x_train, df_train.target.values)
+
+    valid_preds = model.predict_proba(x_valid)[:, 1]
+
+    auc = metrics.roc_auc_score(df.valid.target.values, valid_preds)
+
+    print(auc)
+
+
+if __name__ == "__main__":
+
+    for fold_ in range(5):
+        run(fold_)
+
+# Took forever to run
+# Maybe not a good idea to one-hot encode for tree-based models in this problem 
+# * Curse of dimensionality intesifies *
