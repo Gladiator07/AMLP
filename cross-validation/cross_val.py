@@ -21,3 +21,5 @@ if __name__ == "__main__":
     
     # save the new csv with kfold column
     df.to_csv("train_folds.csv", index=False)
+
+ # Results 
