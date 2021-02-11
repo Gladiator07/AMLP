@@ -52,7 +52,7 @@ def run(fold):
             lbl.fit(df[col])
     # transform all the data
 
-    df.loc[:, col] = lbl.transform(df[col])
+            df.loc[:, col] = lbl.transform(df[col])
 
     # get training data using folds
     df_train = df[df.kfold != fold].reset_index(drop=True)
