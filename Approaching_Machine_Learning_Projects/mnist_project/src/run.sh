@@ -1,5 +1,5 @@
-python train.py --fold 0 --model rf
-python train.py --fold 1 --model rf
-python train.py --fold 2 --model rf
-python train.py --fold 3 --model rf
-python train.py --fold 4 --model rf
+#!/bin/bash
+for i in 0 1 2 3 4
+do
+python train.py --fold $i --model rf
+done
