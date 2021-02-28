@@ -15,3 +15,5 @@ features = {
 }
 
 print(features)
+
+print(features["dayofweek"])
