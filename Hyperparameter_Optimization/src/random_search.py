@@ -11,16 +11,17 @@ if __name__=="__main__":
 
     classifier = ensemble.RandomForestClassifier(n_jobs=-1)
     param_grid = {
-        "n_estimators": [100, 200, 300, 400],
-        "max_depth": [1, 3, 5, 7],
+        "n_estimators": np.arange(100, 1500, 100),
+        "max_depth": np.arange(1, 20),
         "criterion": ["gini", "entropy"],
     }
 
     # you should perform your own cross validation (stratified folds)
-    model = model_selection.GridSearchCV(
+    model = model_selection.RandomizedSearchCV(
         estimator=classifier,
-        param_grid=param_grid,
+        param_distributions=param_grid,
         scoring="accuracy",
+        n_iter=10,
         verbose=10,
         n_jobs=1,
         cv=5
