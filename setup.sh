@@ -21,8 +21,9 @@ echo "Kaggle API Key successfully linked !!!"
 
 # Specify the data path here
 # data_path="/content/AMLP/Image_problem/Classification/input"
-cd /content/AMLP/Image_problem/Classification/input_image
+cd /content/AMLP/Image_Problem/Classification/input_image
 kaggle datasets download -d abhishek/siim-png-images
+kaggle datasets download -d abhishek/siim-png-train-csv
 unzip siim-png-images
 rm siim-png-images.zip 
 rm -rf input/
