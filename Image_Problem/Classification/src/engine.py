@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 
 from tqdm import tqdm
-from typing_extensions import final
 
 def train(data_loader, model, optimizer, device):
     """
