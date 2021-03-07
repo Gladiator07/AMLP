@@ -4,6 +4,7 @@ echo "This script will set your kaggle api-key to Kaggle api and download data f
 
 echo "Installing dependencies"
 pip3 install --upgrade --force-reinstall --no-deps kaggle
+pip3 install pretrainedmodels
 
 # Put your Kaggle api key path here
 echo "Fetching your Kaggle API Key"
