@@ -29,3 +29,9 @@ unzip siim-png-train-csv.zip
 rm siim-png-images.zip 
 rm siim-png-train-csv.zip
 rm -rf input/
+
+echo "Creating pneumothorax images cv folds...."
+folds_script="/content/AMLP/Image_Problem/Classification/src/create_folds.py"
+python3 $folds_script
+
+echo "Done. You are all set to work..."
