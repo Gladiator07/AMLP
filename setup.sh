@@ -25,5 +25,7 @@ cd /content/AMLP/Image_Problem/Classification/input_image
 kaggle datasets download -d abhishek/siim-png-images
 kaggle datasets download -d abhishek/siim-png-train-csv
 unzip siim-png-images
+unzip siim-png-train-csv.zip 
 rm siim-png-images.zip 
+rm siim-png-train-csv.zip
 rm -rf input/
