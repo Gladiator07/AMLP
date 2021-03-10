@@ -18,23 +18,45 @@ cat ~/.kaggle/kaggle.json
 chmod 600 ~/.kaggle/kaggle.json
 echo "Kaggle API Key successfully linked !!!"
 
+# ==================================================================================
+# FOR IMAGE PROBLEMS CHAPTER
+# ==================================================================================
 # This snippet will download the data in specified folder
 
 # Specify the data path here
 # data_path="/content/AMLP/Image_problem/Classification/input"
-cd /content/AMLP/Image_Problem/Classification/
-mkdir input_image
-cd input_image/
-kaggle datasets download -d abhishek/siim-png-images
-kaggle datasets download -d abhishek/siim-png-train-csv
-unzip siim-png-images
-unzip siim-png-train-csv.zip 
-rm siim-png-images.zip 
-rm siim-png-train-csv.zip
-rm -rf input/
+# cd /content/AMLP/Image_Problem/Classification/
+# mkdir input_image
+# cd input_image/
+# kaggle datasets download -d abhishek/siim-png-images
+# kaggle datasets download -d abhishek/siim-png-train-csv
+# unzip siim-png-images
+# unzip siim-png-train-csv.zip 
+# rm siim-png-images.zip 
+# rm siim-png-train-csv.zip
+# rm -rf input/
 
-echo "Creating pneumothorax images cv folds...."
-folds_script="/content/AMLP/Image_Problem/Classification/src/create_folds.py"
-python3 $folds_script
+# echo "Creating pneumothorax images cv folds...."
+# folds_script="/content/AMLP/Image_Problem/Classification/src/create_folds.py"
+# python3 $folds_script
 
-echo "Done. You are all set to work..."
+# echo "Done. You are all set to work..."
+
+
+# ===================================================================================
+# FOR ENSEMBLING CHAPTER
+# ===================================================================================
+cd /content/AMLP/Ensembling/
+mkdir input_text
+cd input_text
+kaggle competitions download -c word2vec-nlp-tutorial
+unzip word2vec-nlp-tutorial.zip
+rm word2vec-nlp-tutorial.zip 
+unzip \*.zip
+rm unlabeledTrainData.tsv.zip
+rm labeledTrainData.tsv.zip
+rm testData.tsv.zip
+# echo "Creating folds..."
+# folds_script="/content/AMLP/Ensembling/src/create_folds.py"
+# python3 $folds_script
+# echo "Done"
